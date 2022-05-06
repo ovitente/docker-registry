@@ -1,0 +1,38 @@
+#cloud-config
+
+runcmd:
+- [touch, /root/cloud-init-worked]
+
+users:
+  - name: reg
+    groups: users, admin, sudo
+    gecos: Docker Registy User
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB4PmWN0Ipp8dllqr66Vf3TRoq7Sx+hf1QfD7fAGwIl0 vm-service
+    lock_passwd: false
+
+packages:
+  - apache2-utils
+  - curl
+  - git
+  - mc
+  - neovim
+  - nginx
+  - python3-pip
+  - ranger
+  - tmux
+  - wget
+
+runcmd:
+ - [ mkdir, -p, /home/reg/.config/ ]
+ - [ mkdir, -p, /home/reg/.ssh/ ]
+ - echo 'set -o vi' >> /home/reg/.bashrc
+ - echo 'export EDITOR=nvim' >> /home/reg/.bashrc
+ - mkdir -p /opt/docker-registry
+ - chown -R reg:reg /opt/docker-registry
+ - chown -R reg:reg /home/reg
+
+package_update: true
+package_upgrade: true
