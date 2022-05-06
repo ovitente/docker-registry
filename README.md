@@ -1,4 +1,4 @@
-# Docker Registry
+# WIP: Docker Registry
 
 Ставишь докер и композ
 
